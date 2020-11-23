@@ -1,0 +1,247 @@
+% This project generates random numbers of robot parts using a die roll function until a robot is built %
+
+/*
+I honor Parkland’s core values by affirming that I have followed
+all academic integrity guidelines for this work.
+
+- Sarah Jacob
+- CSC 127 FA19 Section 201H
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
+void buildRobot(int maxParts[]);
+int generateDiceRoll();
+void addPartToRobot(int diceRollValue, int maxParts[], int currentParts[]);
+int isRobotComplete(int maxParts[], int currentParts[]);
+void printRobot(int currentParts[]);
+
+int main(void) 
+{
+  int maxParts[10] = {3 , 3 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 5};
+  buildRobot(maxParts);
+  char newRobot = 'n';
+  do
+  {
+    printf("\n***Building new robot.***\n\n");
+    buildRobot(maxParts);
+    printf("Would you like to build another robot?");
+    scanf(" %c" , &newRobot);
+    
+  } while(newRobot == 'y');
+  printf("Exiting program.\n");
+  return 0;
+}
+
+void buildRobot(int maxParts[])
+{
+  int robotComplete = 0;
+  int currentParts[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int currentDiceRoll = 0;
+  int diceRollCounter = 0;
+  srand(time(0));
+
+  do
+  {
+    currentDiceRoll = generateDiceRoll();
+    diceRollCounter++;
+    addPartToRobot (currentDiceRoll, maxParts, currentParts);
+    printRobot(currentParts);
+    
+    if (isRobotComplete(maxParts, currentParts) == 1)
+    {
+      printf("Robot is compelete after %d dice rolls.\n\n" , diceRollCounter);
+      robotComplete = 1;
+    }
+  }
+  while (!robotComplete);
+}
+
+int generateDiceRoll()
+{
+  int diceRoll;
+  
+  diceRoll = rand () % 10 + 1;
+  printf ("Dice Roll value is %d\n", diceRoll);
+  return diceRoll;
+}
+
+void addPartToRobot(int diceRollValue, int maxParts[], int currentParts[])
+{
+  switch (diceRollValue)
+  {
+    case 1: //wheels//
+      if (currentParts[0] < maxParts[0])
+      {
+        currentParts[0]++;
+        printf("Wheel added.\n");
+      }
+      else
+      {
+        printf("Maximum number of wheels reached.\n");
+      }
+      break;
+    case 2: //axles//
+      if (currentParts[1] < maxParts[1])
+      {
+        if (currentParts[0] > currentParts[1])
+        {
+            currentParts[1]++;
+            printf("Axle added.\n");
+        }
+        else
+            printf("Not enough wheels.\n");
+      }
+      else
+      {
+        printf("Maximum number of axles reached.\n");
+      }
+      break;
+    case 3: //main chamber//
+      if (currentParts[2] < maxParts[2])
+      {
+          if (currentParts[1] == 3)
+          {
+            currentParts[2]++;
+            printf("Main chamber added.\n");
+          }
+        else
+            printf("Not enough axles.\n");
+      }
+      else
+      {
+        printf("Maximum number of main chambers added.\n");
+      }
+      break;
+    case 4: //shoulders//
+      if (currentParts[3] < maxParts[3])
+      {
+        if (currentParts[2] == 1)
+        {
+            currentParts[3]++;
+            printf("Shoulder added.\n");
+        }
+        else
+            printf("No Main Chamber.\n");
+      }
+      else
+      {
+        printf("Maximum number of shoulders added.\n");
+      }
+      break;
+    case 5: //neck//
+      if (currentParts[4] < maxParts[4])
+      {
+        if (currentParts[3] == 1)
+        {
+            currentParts[4]++;
+            printf("Neck added.\n");
+        }
+        else
+            printf("No Shoulders.\n");
+      }
+      else
+      {
+        printf("Maximum number of necks added.\n");
+      }
+      break;
+    case 6: //head//
+      if (currentParts[5] < maxParts[5])
+      {
+        if (currentParts[4] == 1)
+        {
+            currentParts[5]++;
+            printf("Head added.\n");
+        }
+        else
+            printf("No Neck.\n");
+      }
+      else
+      {
+        printf("Maximum number of heads added.\n");
+      }
+      break;
+    case 7: //plunger//
+      if (currentParts[6] < maxParts[6])
+      {
+        if (currentParts[3] == 1)
+        {
+            currentParts[6]++;
+            printf("Plunger added.\n");
+        }
+        else
+            printf("No shoulders.\n");
+      }
+      else
+      {
+        printf("Maximum number of plungers added.\n");
+      }
+      break;
+    case 8: //gun//
+      if (currentParts[7] < maxParts[7])
+      {
+        if (currentParts[3] == 1)
+        {
+            currentParts[7]++;
+            printf("Gun added.\n");
+        }
+        else
+            printf("No shoulders.\n");
+      }
+      else
+      {
+        printf("Maximum number of guns added.\n");
+      }
+      break;
+    case 9: //eye stalk//
+      if (currentParts[8] < maxParts[8])
+      {
+        if (currentParts[5] == 1)
+        {
+            currentParts[8]++;
+            printf("Eye stalk added.\n");
+        }
+        else
+            printf("No head.\n");
+      }
+      else
+      {
+        printf("Maximum number of eye stalks added.\n");
+      }
+      break;
+    case 10: //globes//
+      if (currentParts[9] < maxParts[9])
+      {
+        if (currentParts[2] == 1)
+        {
+            currentParts[9]++;
+            printf("Globe added.\n");
+        }
+        else
+            printf("No Main Chamber.\n");
+      }
+      else
+      {
+        printf("Maximum number of globes added.\n");
+      }
+      break;
+  }
+}
+
+int isRobotComplete(int maxParts[], int currentParts[])
+{
+   for (int i = 0; i < 10; i++)
+   {
+       if (maxParts[i] != currentParts[i])
+          return 0;
+   }
+   return 1;
+}
+
+void printRobot(int currentParts[])
+{
+  printf("Wheels:%d\nAxles:%d\nMain Chamber:%d\nShoulders:%d\nNeck:%d\nHead:%d\nPlunger:%d\nGun:%d\nEye Stalk:%d\nGlobes:%d\n\n" ,currentParts[0] , currentParts[1] , currentParts[2] , currentParts[3] , currentParts[4] , currentParts[5] , currentParts[6] , currentParts[7] , currentParts[8] , currentParts[9]);
+}
