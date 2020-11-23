@@ -1,0 +1,160 @@
+% This program checks to see if the date entered according to the format in the indicated lines is valid %
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+// makes sense for January to be 1
+enum Month {JAN=1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC};
+
+struct Date
+{
+  enum Month month;  
+  unsigned char day;  // unsigned char is the shortest integer
+  short int year;     // around +32,000 to -32,000
+};
+
+
+// print out a date
+void print_date(struct Date d);
+
+// convert enum Month to a string
+char* month_to_string(enum Month m);
+
+// determine if the date is valid
+int is_valid_date(struct Date d);
+
+// max number of days in a month
+// returns zero in the case of an invalid month
+int number_days_in_month(struct Date d);
+
+// determine if this is a leapyear
+int is_leap_year(struct Date d);
+
+// move to the next day
+int make_tomorrow(struct Date* d);
+
+int main(void) {
+  struct Date today, tomorrow;
+  int i;
+  struct Date appointments[20];
+
+  today.month = 11;
+  today.day = 18;
+  today.year = 2019;
+  print_date(today);
+  printf("\n");
+  // can set two struct to be the same
+  tomorrow = today;
+  tomorrow.day++;
+  print_date(tomorrow);
+  printf("\n");
+
+  if (is_valid_date(tomorrow))
+  {
+    print_date(tomorrow);
+    printf(" is a valid date\n");
+  }
+  else 
+  {
+    print_date(tomorrow);
+    printf(" is NOT a valid date\n");
+  }
+
+  for (i=0;i<10;i++)
+  {
+    make_tomorrow(&tomorrow);
+    print_date(tomorrow);
+    printf("\n");
+  }
+
+  appointments[0].month = NOV;
+  appointments[0].day = 22;
+  appointments[0].year = 2019;
+
+  print_date(appointments[0]);
+
+  return 0;
+}
+
+// print out a date
+void print_date(struct Date d)
+{
+  printf("%s-%d-%d", month_to_string(d.month), d.day, d.year);
+}
+
+// convert enum Month to a string
+char* month_to_string(enum Month m)
+{
+  switch (m)
+  {
+    case JAN:
+      return "JAN";
+    case FEB:
+      return "FEB";
+    case MAR:
+      return "MAR";
+    case APR:
+      return "APR";
+    case MAY:
+      return "MAY";
+    case JUN:
+      return "JUN";
+    case JUL:
+      return "JUL";
+    case AUG:
+      return "AUG";
+    case SEP:
+      return "SEP";
+    case OCT:
+      return "OCT";
+    case NOV:
+      return "NOV";
+    case DEC:
+      return "DEC";
+  }
+  return "???";
+}
+
+int is_leap_year(struct Date d)
+{
+  return (d.year % 4 == 0 && d.year % 100 != 0) || d.year % 400 == 0;
+}
+
+int number_days_in_month(struct Date d)
+{
+  int days[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; 
+  if (d.month < 0 || d.month > 12 )
+    return 0;
+  if (d.month == 2 && is_leap_year(d))
+    return 29;
+  return days[d.month]; 
+}
+
+int is_valid_date(struct Date d)
+{
+  if (d.month <= 0 || d.day <= 0 ) 
+    return 0;
+  if (d.day > number_days_in_month(d)) 
+    return 0; 
+  return 1;
+}
+
+// move to the next day
+int make_tomorrow(struct Date* dPtr)
+{
+  if (dPtr->day < number_days_in_month(*dPtr))
+    dPtr->day ++;
+  else if (dPtr->month < DEC)
+  {
+    dPtr->month ++;
+    dPtr->day = 1;
+  }
+  else 
+  {
+    dPtr->year ++;
+    dPtr->month = 1;
+    dPtr->day = 1;
+  }  
+  return 0;
+}
