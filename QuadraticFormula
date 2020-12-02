@@ -1,0 +1,26 @@
+%This project lets the user input coefficients for a quadratic equation and returns its roots%
+#include <stdio.h>
+#include <math.h>
+
+int main(void) {
+  float a;
+  float b;
+  float c;
+  float x_one;
+  float x_two;
+  float disc;
+ printf("Enter in the values of A,B,and C, to be entered in as coefficients in the quadratic equation.\n");
+ printf("A=");
+ scanf("%f", &a);
+ printf("B=");
+ scanf("%f", &b);
+ printf("C=");
+ scanf("%f", &c);
+ printf("The quadratic equation is (-B +/- sqrt((B^2)-4AC))/2A\n");
+ disc = (b*b)-(4*a*c);
+ x_one=(-b + sqrtf(disc))/(2*a);
+ x_two=(-b - sqrtf(disc))/(2*a);
+ printf("The first root of the equation is x=%f.\n", x_one);
+ printf("The second root of the equation is x=%f.\n", x_two);
+ ;
+}
