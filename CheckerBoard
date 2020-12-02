@@ -1,0 +1,178 @@
+#include <stdio.h>
+// This variable stores the size of the checkers board
+int arr_size = 8;
+// Declaring values for the enumerators
+enum Checker {EMPTY = ' ',RED = 'R',BLACK = 'B'};
+
+// This function prints the enumerator value
+void print_checker_square(enum Checker c)
+{
+    // printing the enumerator value
+    printf("%c",c);
+}
+
+// This function initializes the checker board
+void initialize_checker_board(char checkers_board[arr_size][arr_size])
+{
+    // These two variables are used in for loops
+    int i=0,j=0;
+    // This variable keeps track of how many rows in the board are filled
+    int checker_row = 0;
+    // This variable keeps track of how many column in the board are filled
+    int checker_column = 0;
+    // This variable keeps track of how many squares are filled in the checker board
+    int checker_square_num = 0;
+    // This enum variable is initialized with the enumerator value red
+    enum Checker val = RED;
+    // This enum variable is initialized with the enumerator value empty
+    enum Checker space = EMPTY;
+
+    // Filling the reds in the checker board
+    // Only first three rows should have reds
+    for(i=0;i<3;i++)
+    {
+        // All columns are initialized
+        for(j=0;j<arr_size;j++)
+        {
+            // If the row number is even then the pattern is space red space red ...
+            if(i%2 == 0)
+            {
+                // If the square number is even
+                if(checker_square_num%2 == 0)
+                {
+                    // red is placed in the square
+                    checkers_board[checker_row][checker_column++] = val;
+                }
+
+                // Else
+                else
+                {
+                    // space is placed in the square
+                    checkers_board[checker_row][checker_column++] = space;
+                }
+            }
+            // If the row number is odd then the pattern is red space red space ...
+            else
+            {
+                // If the square number is even
+                if(checker_square_num%2 == 0)
+                {
+                    // space is placed in the square
+                    checkers_board[checker_row][checker_column++] = space;
+                }
+                // Else
+                else
+                {
+                    // red is placed in the square
+                    checkers_board[checker_row][checker_column++] = val;
+                }
+            }
+            // Incrementing the number of the square
+            ++checker_square_num;
+        }
+        // Updating the column count of the checker board to 0
+        checker_column = 0;
+        // Incrementing the row count of the checker board
+        checker_row++;
+    }
+
+    // Next two rows are filled with spaces
+    for(i=0;i<2;i++)
+    {
+        // All columns are initialized
+        for(j=0;j<arr_size;j++)
+        {
+            // space is placed in the square
+            checkers_board[checker_row][checker_column++] = space;
+            // Incrementing the number of the square
+            ++checker_square_num;
+        }
+        // Updating the column count of the checker board to 0
+        checker_column = 0;
+        // Incrementing the row count of the checker board
+        checker_row++;
+    }
+
+    // Updating the val to black
+    val = BLACK;
+
+    // Filling the blacks in the checker board
+    // last three rows should have blacks
+    for(i=0;i<3;i++)
+    {
+        // All columns are initialized
+        for(j=0;j<arr_size;j++)
+        {
+            // If the row number is even then the pattern is space black space black ...
+            if(i%2 == 0)
+            {
+                // If the square number is even
+                if(checker_square_num%2 == 0)
+                {
+                    // black is placed in the square
+                    checkers_board[checker_row][checker_column++] = val;
+                }
+
+                    // Else
+                else
+                {
+                    // space is placed in the square
+                    checkers_board[checker_row][checker_column++] = space;
+                }
+            }
+                // If the row number is odd then the pattern is red space red space ...
+            else
+            {
+                // If the square number is even
+                if(checker_square_num%2 == 0)
+                {
+                    // space is placed in the square
+                    checkers_board[checker_row][checker_column++] = space;
+                }
+                // Else
+                else
+                {
+                    // black is placed in the square
+                    checkers_board[checker_row][checker_column++] = val;
+                }
+            }
+            // Incrementing the number of the square
+            ++checker_square_num;
+        }
+        // Updating the column count of the checker board to 0
+        checker_column = 0;
+        // Incrementing the row count of the checker board
+        checker_row++;
+    }
+}
+
+// This function prints the checker board onto the console
+void print_checker_board(char checkers_board[arr_size][arr_size])
+{
+    // These two variables are used for iterating over the array
+    int i = 0;
+    int j = 0;
+    // Iterating over the array
+    for(i=0;i<arr_size;i++)
+    {
+        for(j=0;j<arr_size;j++)
+        {
+            // Printing the checker square value
+            print_checker_square(checkers_board[i][j]);
+        }
+        // After a row is printed, print a new line
+        printf("\n");
+    }
+}
+
+// This is the main function
+int main()
+{
+    // Creating an array of type char whose row count and column count are equal to arr_size
+    char checkers_board[arr_size][arr_size];
+    // Initializing the checker board
+    initialize_checker_board(checkers_board);
+    // Printing the checker board
+    print_checker_board(checkers_board);
+    return 0;
+}
