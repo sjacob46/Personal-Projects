@@ -1,0 +1,22 @@
+%Pseudo manual database for employee names with struct function%
+
+ #include <stdio.h>
+
+struct employeeFile
+{
+  char name[30];
+  int zipCode;
+  int age;
+};
+
+int main(void) {
+  struct employeeFile a;
+  printf("Enter employee name:");
+  scanf("%s\n" , &a.name[30]);
+  printf("Enter branch zipcode:");
+  scanf("%d\n" , &a.zipCode);
+  printf("Enter employee age:");
+  scanf("%d\n" , &a.age);
+  printf("Hello %s! Welcome to the x company in %d. You are %d years old." ,a.name  , a.zipCode , a.age);
+  return 0;
+}
